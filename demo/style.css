@@ -1,0 +1,246 @@
+* {
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    user-select:none;
+    -moz-user-select:none;
+    -ms-user-select:none;
+    -webkit-user-select:none;
+    font-family:sans-serif;
+}
+body,html {
+    height:100%;
+    position: relative;
+}
+body {
+    background-position:center;
+    background-size: 100% 100%;
+}
+#container {
+    text-align: center;
+    height:100%;
+}
+.text-image-container {
+    height:100%;
+}
+.text-image-container:before {
+    content: '';
+    display: inline-block;
+    height: 100%;
+    vertical-align: middle;
+}
+.only-text, .only-image, .text-with-image, .image-with-text {
+    text-align:center;
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.only-text, .text-with-image {
+    font-size:2em;
+}
+.image-with-text {
+    margin:0 1em;
+}
+.menu-container {
+    display:inline-block;
+    text-align:left;
+}
+.menu-title {
+    font-size:4em;
+    font-weight:bold;
+    text-align:center;
+    cursor:default;
+}
+.menu-item {
+    font-size:2em;
+    cursor:pointer;
+    margin:10px;
+}
+.menu-text {
+    display:inline-block;
+}
+.menu-text:hover, .menu-sub-item:hover {
+    text-decoration:underline;
+}
+.menu-bullet {
+    display:inline-block;
+    background-color:darkgreen;
+    font-size:0.7em;
+    height:1.4em;
+    line-height:1.4em;
+    text-align:center;
+    width:1.4em;
+    border-radius:1em;
+    box-shadow:0 0 0 0.15em white inset;
+    margin-right:3px;
+}
+.menu-bullet:hover {
+    background-color:lightgreen;
+    color:black;
+    box-shadow:0 0 0 0.15em black inset;
+}
+.sub-menu-container {
+    margin-left:1.5em;
+}
+.title-letter, .word-letter {
+    display:inline;
+}
+#footer {
+    position:fixed;
+    bottom:0;
+    text-align:center;
+    width:100%;
+}
+
+#footer button {
+    margin: .5em 2em;
+}
+.blink {
+    -webkit-animation: colorchange 2s ease-in-out infinite;
+    -moz-animation: colorchange 2s ease-in-out infinite;
+    animation: colorchange 2s ease-in-out infinite;
+}
+
+#next img, #prev img {
+  height: 25px;
+  width: auto;
+}
+
+@-moz-keyframes colorchange {
+  0% {
+    color:inherit;
+  }
+  25% {
+    color:pink;
+  }
+  50% {
+    color:darkgreen;
+  }
+  75% {
+    color:blue;
+  }
+  100% {
+    color:auto;
+  }
+}
+@-webkit-keyframes colorchange {
+  0% {
+    color:inherit;
+  }
+  25% {
+    color:pink;
+  }
+  50% {
+    color:darkgreen;
+  }
+  75% {
+    color:blue;
+  }
+  100% {
+    color:auto;
+  }
+}@keyframes colorchange {
+  0% {
+    color:inherit;
+  }
+  25% {
+    color:pink;
+  }
+  50% {
+    color:darkgreen;
+  }
+  75% {
+    color:blue;
+  }
+  100% {
+    color:auto;
+  }
+}
+
+.form-group {
+    padding: 1em;
+}
+
+.welcome-screen {
+  background-color:black;
+  background-size:16px 16px;
+  width:100%;
+  height:auto;
+  min-height:100%;
+  top:0;
+  position: absolute;
+}
+.round-button {
+  width: 50%;
+  align-self: center;
+  margin: 0 auto;
+  padding-top: 25%;
+}
+.round-button-circle {
+  width: 100%;
+  border-radius: 50%;
+  border:10px solid #cfdcec;
+  overflow:hidden;
+
+  background: #2f3d4f;
+  box-shadow: 0 0 3px gray;
+}
+.round-button-circle:hover {
+  background: #384266;
+}
+.round-button a {
+  display:block;
+  float:left;
+  width:100%;
+  padding-top:50%;
+  padding-bottom:50%;
+  line-height:1em;
+  margin-top:-0.5em;
+
+  text-align:center;
+  color:#e2eaf3;
+  font-family:Verdana;
+  font-size:1.2em;
+  font-weight:bold;
+  text-decoration:none;
+}
+.list-available-courses button {
+  margin-right: 5px;
+}
+.btn img {
+    vertical-align: middle;
+    max-height: 20px;
+    margin-right: 5px;
+    -webkit-filter: invert(100%);
+    filter: invert(100%);
+}
+.no-filter img {
+   filter: invert(0%);
+   -webkit-filter: invert(0%);
+}
+.control-icon {
+   height:5%;
+   filter: invert(100%);
+   -webkit-filter: invert(100%);
+   margin: 5px;
+   cursor: pointer;
+}
+a.round-button h2, a.round-button:hover h2 {
+color:white;text-decoration: none;text-decoration-color:black;
+}
+.language-selector {
+position:fixed;
+left:0px;
+top:10px;
+text-align:right;
+width:100%;
+}
+.language-selector a, .language-selector a:hover {
+    font-size: 2rem;
+    color: black;
+    margin: 0.5rem;
+    background: white;
+    padding: 0.5rem;
+    text-decoration: none;
+    border-radius: 0.5rem;
+}

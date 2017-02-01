@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Adult Literacy</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<script>
+function record_click(name) {
+    var info = JSON.parse(localStorage.getItem('clicks'));
+    if(info==null) {
+        var info = {};
+    }
+    if(!(name in info)) {
+        info[name] = 0;
+    }
+    info[name]+=1;
+    //console.log(JSON.stringify(info));
+    localStorage.setItem('clicks', JSON.stringify(info));
+}
+function clear_click() {
+    localStorage.setItem('clicks', '[]');
+}
+function sync_click() {
+    var clicks = localStorage.getItem('clicks');
+    if(clicks == "{}" || clicks == null) { return; }
+    $.ajax({
+        url:"http://rice.iiit.ac.in/usage.php",
+        type:"POST",
+        data: {'client_id':localStorage.getItem('client_id'), 'clicks':clicks},  
+        success:function(result) {
+            localStorage.setItem('clicks', JSON.stringify({}));
+        }
+    }); 
+}
+function unique_client_id() {
+    var id = localStorage.getItem('client_id');
+    if(id==null) {
+        localStorage.setItem('client_id',(new Date().getTime()) + Math.random().toString(36).slice(2));
+    }
+}
+unique_client_id();
+setInterval(function() {
+  sync_click();
+}, 60000);
+</script>
+    <script type="text/x-mustache-template" id="xml-template">
+<?xml version='1.0' encoding='UTF-8' ?>
+<design>
+    <language>
+        {{language}}
+    </language>
+    <backgroundimage>
+        
+    </backgroundimage>
+    <backgroundcolor>
+        {{backgroundcolor}}
+    </backgroundcolor>
+    <colortheme>
+        {{colortheme}}
+    </colortheme>
+    <animationstyle>
+        fallingletters
+    </animationstyle>
+    <animationspeed>
+        slow
+    </animationspeed>
+    <sizeofletters>
+        large
+    </sizeofletters>
+    <menu>
+        <title>
+            {{titleOfTheLesson}}
+        </title>
+        <backgroundimage>
+            menu.jpg
+        </backgroundimage>
+        <backgroundcolor>
+            black
+        </backgroundcolor>
+        <colortheme>
+            white
+        </colortheme>
+    </menu>
+
+    <imagefornextbutton>./right.png</imagefornextbutton>
+    <imageforpreviousbutton>./left.png</imageforpreviousbutton>
+    <imageformenubutton></imageformenubutton>
+    <imageforhandandstick>./handandstick.png</imageforhandandstick>
+
+    <lesson>
+        <title>
+            {{titleOfTheLesson}}
+        </title>
+        <instructions>
+            <start>
+                <sound>{{audio}}</sound>
+                <image>{{image}}</image>
+            </start>
+            <middle>
+                <sound></sound>
+                <image></image>
+            </middle>
+            <end>
+                <sound></sound>
+                <image></image>
+            </end>
+        </instructions>
+        <letters>
+            {{#letters}}
+            <letter>
+                <text>{{text}}</text>
+                <instructions>
+                    <start>
+                        <sound>{{audio}}</sound>
+                        <image>{{image}}</image>
+                    </start>
+                    <middle>
+                        <sound></sound>
+                        <image></image>
+                    </middle>
+                    <end>
+                        <sound></sound>
+                        <image></image>
+                    </end>
+                </instructions>
+                <words>
+                    {{#words}}
+                    <word>
+                        <text>{{text}}</text>
+                        <image>{{image}}</image>
+                        <sound>{{audio}}</sound>
+                    </word>
+                    {{/words}}
+                </words>
+            </letter>
+            {{/letters}}
+        </letters>
+    </lesson>
+</design>
+    </script>
+    <script src="mustache.min.js"></script>
+    <script src="jquery.js"></script>
+    <script src="animationQueue.js"></script>
+    <script src="start.js"></script>
+    <script src="form.js"></script>
+    <script src="language.js"></script>
+    <div class="container form-horizontal welcome-screen">
+      <div class="row" style="margin-top:15%">
+        <div style="width:50%;float:left;">
+              <a id="go-to-default"  href="#" class="round-button"><center><img class="control-icon" src="./icons/play.png" style="width:35%;"><br><h2></h2></center></a>
+        </div>
+        <div style="width:50%;float:right;">
+              <a id="go-to-custom" href="#" class="round-button"><center><img class="control-icon" src="./icons/edit.png" style="width:35%;"><br><h2></h2></center></a>
+        </div>
+      </div>
+      <div class="language-selector"><a href="?language=english">A</a><a href="?language=telugu">అ</a><a href="?language=hindi">अ</a></div>
+    </div>
+    <div class="container form-horizontal generator-form" style="display:none;">
+      <br>
+        <ul class="list-group">
+          <li class="list-group-item list-group-item-success"><b>Course Editor</b></li>
+        </ul>
+        <div class="form-group">
+            <input type="text" class="form-control title-of-the-lesson" placeholder="Title of the Lesson">
+        </div>
+        <div class="row instructions">
+             <div class="col-sm-4">
+                 <label><span>Instructions</span></label>
+             </div>
+             <div class="col-sm-4">
+                  Image (Optional)
+                  <input type="file" class="image-file">
+             </div>
+             <div class="col-sm-4">
+                  Audio (Optional)
+                  <input type="file" class="audio-file">
+             </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-4">
+                <label><span>Background</span>: <input type="color" id="color1" value="#FF69B4"></label>
+            </div>
+            <div class="col-sm-4">
+                <label><span>TextColor1</span>: <input type="color" id="color2" value="#0000ff"></label>
+            </div>
+            <div class="col-sm-4">
+                <label><span>TextColor2</span>: <input type="color" id="color3" value="#ff0000"></label>
+            </div>
+        </div>
+        <div class="syllable-container">
+            <div class="syllable-group">
+                <hr>
+                <div class="well">
+                        <div class="col-sm-4">
+                            <input type="text" class="form-control syllable" placeholder="Syllable">
+                        </div>
+                        <div class="col-sm-3">
+                            Image (Optional)
+                            <input type="file" class="image-file">
+                        </div>
+                        <div class="col-sm-3">
+                             Audio (Optional)
+                            <input type="file" class="audio-file">
+                        </div>
+                        <div class="col-sm-2">
+                            <button type="button" class="btn btn-danger delete-container">
+                                <img src="./icons/delete.png"></button>
+                        </div>
+                    <br><br><hr>
+                    <div class="word-container">
+                        <div class="word-group">
+                            <div class="row">
+                                <div class="col-sm-4">
+                                    <input type="text" class="form-control word" placeholder="Word">
+                                </div>
+                                <div class="col-sm-3">
+                                    Image (Optional)
+                                    <input type="file" class="image-file">
+                                </div>
+                                <div class="col-sm-3">
+                                    Audio (Optional)
+                                    <input type="file" class="audio-file">
+                                </div>
+                                <div class="col-sm-2">
+                                    <button type="button" class="btn btn-danger delete-container">
+                                    <img src="./icons/delete.png"></button>
+                                </div>
+                            </div>
+                            <hr>
+                        </div>
+                    </div>
+                    <button type="button" class="btn btn-success btn-sm add-word"><span>Add Example Words</span></button>
+                </div>
+            </div>
+        </div>
+        <button type="button" class="btn btn-success add-syllable"><img src="./icons/addsyllable.png" /><span>Add Syllable</span></button>
+        <br><br>
+        <button type="button" class="btn btn-primary download-btn"><img src="./icons/download.png" /><span>Save iPrimer</span></button>
+        <button type="button" class="btn btn-primary generate-btn"><img src="./icons/generate.png" /><span>Generate</span></button>
+      <br><br>
+      <ul class="list-group">
+        <li class="list-group-item list-group-item-success"><b>Available courses</b></li>
+      </ul>
+      <ul class="list-available-courses list-group">
+        <li class="list-group-item">Oops! Something went wrong. :(</li>
+      </ul>
+      <ul class="list-group">
+        <li class="list-group-item list-group-item-success"><b></b></li>
+      </ul>
+      <input type="file" id="fileinput" accept="application/xml,text/xml"/><br>
+      <button class="btn btn-primary btn-success upload-xml"><img src="./icons/upload.png" /><span>Upload XML</span></button>
+      <button class="btn btn-primary force-delete-xml"><span class="glyphicon glyphicon-refresh"></span><span>Reset my courses</span></button>
+      <button class="btn btn-primary download-book"><img src="./icons/download.png"><span>Download book</span></button>
+      <button class="btn btn-primary btn-success form-to-home" onclick="location.reload()"><img src="./icons/home.png" /><span>Back to home</span></button>
+    </div>
+    <div id="container"></div>
+    <div id="footer" style="display: none;">
+        <img id="home" src="./icons/home.png" class="control-icon">
+        <span id="animation-control">
+            <img id="menu" src="./icons/menu.png" class="control-icon">
+            <img id="prev" src="./icons/left.png" class="control-icon">
+            <img id="replay" src="./icons/repeat.png" class="control-icon">
+            <img id="next" src="./icons/right.png" class="control-icon">
+        </span>
+    </div>
+</body>
+</html>

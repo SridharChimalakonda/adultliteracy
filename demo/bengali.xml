@@ -1,0 +1,122 @@
+﻿<?xml version='1.0' encoding='UTF-8' ?>
+
+	<!--
+		Written by Sridhar Chimalakonda, enthusiastic2learn@gmail.com
+
+		Key Commandement: Do not hard code anything as your program has to work for all 22 Indian
+		Languages
+
+		There will be 25 lessons at max in a given design
+		Each design can have 1 to 25 lessons
+		Each lesson will have 1 title, "n" number of letters and matras {म, न, क, ा} - remember that 
+		there could be other letters from other than title - for example, व could also be a letter
+		for the same title!
+		Each lesson will also have "n" number of words corresponding to each letter/matra and 
+		each word has to be animated similar to title and animation of the corresponding letter
+		in different color patterns (Pleas see TCS CBFL animation software for example)
+
+		There are two kinds of sounds (i) sounds of letters/words {म sound, मन sound...}
+		(ii) sounds that guide the learners {अब आपलोग इसे पहचानकर बताईये ये कोनसा अक्शर हैँ?, अब आपलोग मेरे साथ साथ बोलिए }
+		For every letter falling down, there will be a sound associated with it and there could
+		be an instruction associated with it as well.. so please leave scope for playing 
+		sound with every animation..please see and listen TCS CBFL animation to get an idea!
+
+-->
+
+<design>
+    <language>
+        Telugu           <!--language for design -->
+    </language>
+    <backgroundimage>
+        back.png        <!-- Path for background-image -->
+    </backgroundimage>
+    <backgroundcolor>
+        orange          <!-- Can be a standard HTML colors, in Hex {e.g. #AA11FF} or in rgb { e.g. rgb(130,225,100) } -->
+    </backgroundcolor>
+    <colortheme>
+        {orange, green}
+                    <!--
+                    Can be a standard HTML colors, in Hex {e.g. #AA11FF} or in rgb { e.g. rgb(130,225,100) }.
+                    In form {color1, color2},
+                    where color1 is normal text color,
+                    and color2 is the color used for highlighting.
+                    -->
+    </colortheme>
+    <animationstyle>
+        fallingletters
+    </animationstyle>
+    <animationspeed>
+        slow        <!-- Can be slow, fast or withsound -->
+    </animationspeed>
+    <sizeofletters>
+        large      <!-- Can be small, medium or large -->
+    </sizeofletters>
+    
+    <menu>
+        <title>
+	        ওয়েবসাইটটি
+        </title>
+        <backgroundimage>
+            menu.jpg
+        </backgroundimage>
+        <backgroundcolor>
+            black
+        </backgroundcolor>
+        <colortheme>
+            white
+        </colortheme>
+    </menu>
+    
+    <lesson>
+        <title>
+			ওয়েবসাইটটি
+        </title>
+        <instructions>
+            <start>
+                <image>./namaskar.png</image>
+            </start>
+            <middle>
+                <text>Some text to appear with the sound</text>
+                 <image>./namaskar.png</image>
+            </middle>
+            <end>
+                 <image>./namaskar.png</image>
+            </end>
+        </instructions>
+        <!--goals>
+            <goal>
+                <text>ఈ పాఠములో మనము ఈ అక్షరాలను గుర్తుపెట్టుకోవటం నేర్చుకుంటాము { }</text>
+                <sound></sound>
+            </goal>
+            <goal>
+                <text>ఈ పాఠములో మనము ఈ అక్షరాలను చదవటం నేర్చుకుంటాము { }</text>
+                <sound></sound>
+            </goal>
+        </goals-->
+          <letters>
+            <letter>
+                <text>ও</text>
+                 <instructions>
+                    <start>
+                        <image>./namaskar.png</image>
+                    </start>
+                    <middle>
+                        <sound></sound>
+                        <image></image>
+                    </middle>
+                    <end>
+                        <sound></sound>
+                        <image></image>
+                    </end>
+                </instructions>
+                <words>
+                    <word>
+                        <text>বাংলা</text>
+                        <image></image>
+                    </word>
+				 </words>
+            </letter>
+
+	</letters>
+    </lesson>
+</design>

@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Generate XML</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <style>
+            body {
+                background-color:#111;
+                font-size:1.2em;
+                cursor:default;
+            }
+            .indent {
+                margin-left:2em;
+            }
+            .tag {
+                color: rgba(70, 141, 177, 1);
+                color: #057cb8;
+            }
+            .content {
+                color:white;
+                text-decoration: underline;
+                cursor:auto;
+            }
+            .content:focus {
+                border:none;
+                text-decoration: none;
+            }
+        </style>
+        <script src="../Final/jQuery.min.js"></script>
+        <script>
+            var $lesson, $goal, $letter, $word;
+            $(document).ready(function(){
+                $('.removeable').dblclick(remove);
+                $lesson = $('.lesson').first().clone();
+                $goal = $('.goal').first().clone();
+                $letter = $('.letter').first().clone();
+                $word = $('.word').first().clone();
+            });
+            function addLesson() {
+                var elem = $lesson.clone();
+                elem.children().first().dblclick(remove);
+                $(this).before( elem );
+            }
+            function addGoal() {
+                var elem = $goal.clone();
+                elem.children().first().dblclick(remove);
+                $(this).before( elem );
+            }
+            function addLetter() {
+                var elem = $letter.clone();
+                elem.children().first().dblclick(remove);
+                $(this).before( elem );
+            }
+            function addWord() {
+                var elem = $word.clone();
+                elem.children().first().dblclick(remove);
+                $(this).before( elem );
+            }
+            
+            function downloadXml() {
+                var filename = prompt("Enter File Name", "file.xml")
+                var b = new Blob([$('body').text().trim()],{
+                    type: 'text/xml'
+                });
+                var url = URL.createObjectURL(b);
+                var A = document.createElement('a');
+                A.setAttribute('download',(filename !== null)?
+                    ( (filename.length - filename.lastIndexOf('.xml') === 4 )?filename:filename+'.xml' )
+                    :'file.xml');
+                A.setAttribute('href',url);
+                document.body.appendChild(A);
+                A.click();
+                $(A).remove();
+            }
+            function remove(){
+                var r = confirm('Confirm remove?');
+                if (r === true) {
+                    $(this).parent().remove();
+                }
+            }
+            function publish(data, filename) {
+
+                if (!window.BlobBuilder && window.WebKitBlobBuilder) {
+                    window.BlobBuilder = window.WebKitBlobBuilder;
+                }
+
+                fs.root.getFile(filename, {
+                    create: true
+                }, function (fileEntry) {
+
+                    // Create a FileWriter object for our FileEntry (log.txt).
+                    fileEntry.createWriter(function (fileWriter) {
+
+                        fileWriter.onwriteend = function (e) {
+                            console.log('Write completed.');
+                        };
+
+                        fileWriter.onerror = function (e) {
+                            console.log('Write failed: ' + e.toString());
+                        };
+
+                        var builder = new BlobBuilder();
+                        builder.append(data);
+                        var blob = builder.getBlob();
+                        fileWriter.write(blob);
+
+                    }, errorHandler);
+
+                }, errorHandler);
+            }
+        </script>
+    </head>
+    <body>
+        <span class="tag">&lt;?xml version='1.0' encoding='UTF-8' ?&gt;<br></span>
+        <span class="tag">&lt;design&gt;</span><br>
+        <div class="indent">
+            <span class="tag">&lt;language&gt;</span><span class="content" contenteditable="true">&nbsp;&nbsp;</span><span class="tag">&lt;/language&gt;</span><br>
+            <span class="tag">&lt;backgroundimage&gt;</span><span class="content" contenteditable="true">&nbsp;&nbsp;</span><span class="tag">&lt;/backgroundimage&gt;</span><br>
+            <span class="tag">&lt;backgroundcolor&gt;</span><span class="content" contenteditable="true">&nbsp;&nbsp;</span><span class="tag">&lt;/backgroundcolor&gt;</span><br>
+            <span class="tag">&lt;colortheme&gt;</span><span class="content" contenteditable="true">&nbsp;&nbsp;</span><span class="tag">&lt;/colortheme&gt;</span><br>
+            <span class="tag">&lt;animationstyle&gt;</span><span class="content" contenteditable="true">&nbsp;&nbsp;</span><span class="tag">&lt;/animationstyle&gt;</span><br>
+            <span class="tag">&lt;animationspeed&gt;</span><span class="content" contenteditable="true">&nbsp;&nbsp;</span><span class="tag">&lt;/animationspeed&gt;</span><br>
+            <span class="tag">&lt;sizeofletters&gt;</span><span class="content" contenteditable="true">&nbsp;&nbsp;</span><span class="tag">&lt;/sizeofletters&gt;</span><br>
+            <br>
+            <span class="tag">&lt;menu&gt;</span><br>
+            <div class="indent">
+                <span class="tag">&lt;title&gt;</span><span class="content" contenteditable="true">&nbsp;&nbsp;</span><span class="tag">&lt;/title&gt;</span><br>
+                <span class="tag">&lt;backgroundimage&gt;</span><span class="content" contenteditable="true">&nbsp;&nbsp;</span><span class="tag">&lt;/backgroundimage&gt;</span><br>
+                <span class="tag">&lt;backgroundcolor&gt;</span><span class="content" contenteditable="true">&nbsp;&nbsp;</span><span class="tag">&lt;/backgroundcolor&gt;</span><br>
+                <span class="tag">&lt;colortheme&gt;</span><span class="content" contenteditable="true">&nbsp;&nbsp;</span><span class="tag">&lt;/colortheme&gt;</span><br>
+            </div>
+            <span class="tag">&lt;/menu&gt;</span><br>
+            <br>
+            <div class="lesson">
+                <span class="tag removeable">&lt;lesson&gt;</span><br>
+                <div class="indent">
+                    <span class="tag">&lt;title&gt;</span><span class="content" contenteditable="true">&nbsp;&nbsp;</span><span class="tag">&lt;/title&gt;</span><br>
+                    <br>
+                    <span class="tag">&lt;colortheme&gt;</span><span class="content" contenteditable="true">&nbsp;&nbsp;</span><span class="tag">&lt;/colortheme&gt;</span><br>
+                    <span class="tag">&lt;animationstyle&gt;</span><span class="content" contenteditable="true">&nbsp;&nbsp;</span><span class="tag">&lt;/animationstyle&gt;</span><br>
+                    <span class="tag">&lt;animationspeed&gt;</span><span class="content" contenteditable="true">&nbsp;&nbsp;</span><span class="tag">&lt;/animationspeed&gt;</span><br>
+                    <span class="tag">&lt;sizeofletters&gt;</span><span class="content" contenteditable="true">&nbsp;&nbsp;</span><span class="tag">&lt;/sizeofletters&gt;</span><br>
+                    <br>
+                    <span class="tag">&lt;instructions&gt;</span><br>
+                    <div class="indent">
+                        <span class="tag">&lt;start&gt;</span><br>
+                        <div class="indent">
+                            <span class="tag">&lt;text&gt;</span><span class="content" contenteditable="true">&nbsp;&nbsp;</span><span class="tag">&lt;/text&gt;</span><br>
+                            <span class="tag">&lt;sound&gt;</span><span class="content" contenteditable="true">&nbsp;&nbsp;</span><span class="tag">&lt;/sound&gt;</span><br>
+                            <span class="tag">&lt;image&gt;</span><span class="content" contenteditable="true">&nbsp;&nbsp;</span><span class="tag">&lt;/image&gt;</span><br>
+                        </div>
+                        <span class="tag">&lt;/start&gt;</span><br>
+                        <span class="tag">&lt;middle&gt;</span><br>
+                        <div class="indent">
+                            <span class="tag">&lt;text&gt;</span><span class="content" contenteditable="true">&nbsp;&nbsp;</span><span class="tag">&lt;/text&gt;</span><br>
+                            <span class="tag">&lt;sound&gt;</span><span class="content" contenteditable="true">&nbsp;&nbsp;</span><span class="tag">&lt;/sound&gt;</span><br>
+                            <span class="tag">&lt;image&gt;</span><span class="content" contenteditable="true">&nbsp;&nbsp;</span><span class="tag">&lt;/image&gt;</span><br>
+                        </div>
+                        <span class="tag">&lt;/middle&gt;</span><br>
+                        <span class="tag">&lt;end&gt;</span><br>
+                        <div class="indent">
+                            <span class="tag">&lt;text&gt;</span><span class="content" contenteditable="true">&nbsp;&nbsp;</span><span class="tag">&lt;/text&gt;</span><br>
+                            <span class="tag">&lt;sound&gt;</span><span class="content" contenteditable="true">&nbsp;&nbsp;</span><span class="tag">&lt;/sound&gt;</span><br>
+                            <span class="tag">&lt;image&gt;</span><span class="content" contenteditable="true">&nbsp;&nbsp;</span><span class="tag">&lt;/image&gt;</span><br>
+                        </div>
+                        <span class="tag">&lt;/end&gt;</span><br>
+                    </div>
+                    <span class="tag">&lt;/instructions&gt;</span><br>
+                    <br>
+                    <span class="tag">&lt;goals&gt;</span><br>
+                    <div class="indent">
+                        <div class="goal">
+                            <span class="tag removeable">&lt;goal&gt;</span><br>
+                            <div class="indent">
+                                <span class="tag">&lt;text&gt;</span><span class="content" contenteditable="true">&nbsp;&nbsp;</span><span class="tag">&lt;/text&gt;</span><br>
+                                <span class="tag">&lt;sound&gt;</span><span class="content" contenteditable="true">&nbsp;&nbsp;</span><span class="tag">&lt;/sound&gt;</span><br>
+                                <span class="tag">&lt;image&gt;</span><span class="content" contenteditable="true">&nbsp;&nbsp;</span><span class="tag">&lt;/image&gt;</span><br>
+                            </div>
+                            <span class="tag">&lt;/goal&gt;</span><br>
+                        </div>
+                        <input type="button" value="Add Goal" onclick="addGoal.call(this)"><br>
+                    </div>
+                    <span class="tag">&lt;/goals&gt;</span><br>
+                    <span class="tag">&lt;letters&gt;</span><br>
+                    <div class="indent">
+                        <div class="letter">
+                            <span class="tag removeable">&lt;letter&gt;</span><br>
+                            <div class="indent">
+                                <span class="tag">&lt;text&gt;</span><span class="content" contenteditable="true">&nbsp;&nbsp;</span><span class="tag">&lt;/text&gt;</span><br>
+                                <span class="tag">&lt;sound&gt;</span><span class="content" contenteditable="true">&nbsp;&nbsp;</span><span class="tag">&lt;/sound&gt;</span><br>
+                                <span class="tag">&lt;colortheme&gt;</span><span class="content" contenteditable="true">&nbsp;&nbsp;</span><span class="tag">&lt;/colortheme&gt;</span><br>
+                                <br>
+                                <span class="tag">&lt;animationstyle&gt;</span><span class="content" contenteditable="true">&nbsp;&nbsp;</span><span class="tag">&lt;/animationstyle&gt;</span><br>
+                                <span class="tag">&lt;animationspeed&gt;</span><span class="content" contenteditable="true">&nbsp;&nbsp;</span><span class="tag">&lt;/animationspeed&gt;</span><br>
+                                <span class="tag">&lt;sizeofletters&gt;</span><span class="content" contenteditable="true">&nbsp;&nbsp;</span><span class="tag">&lt;/sizeofletters&gt;</span><br>
+                                <br>
+                                <span class="tag">&lt;instructions&gt;</span><br>
+                                <div class="indent">
+                                    <span class="tag">&lt;start&gt;</span><br>
+                                    <div class="indent">
+                                        <span class="tag">&lt;text&gt;</span><span class="content" contenteditable="true">&nbsp;&nbsp;</span><span class="tag">&lt;/text&gt;</span><br>
+                                        <span class="tag">&lt;sound&gt;</span><span class="content" contenteditable="true">&nbsp;&nbsp;</span><span class="tag">&lt;/sound&gt;</span><br>
+                                        <span class="tag">&lt;image&gt;</span><span class="content" contenteditable="true">&nbsp;&nbsp;</span><span class="tag">&lt;/image&gt;</span><br>
+                                    </div>
+                                    <span class="tag">&lt;/start&gt;</span><br>
+                                    <span class="tag">&lt;middle&gt;</span><br>
+                                    <div class="indent">
+                                        <span class="tag">&lt;text&gt;</span><span class="content" contenteditable="true">&nbsp;&nbsp;</span><span class="tag">&lt;/text&gt;</span><br>
+                                        <span class="tag">&lt;sound&gt;</span><span class="content" contenteditable="true">&nbsp;&nbsp;</span><span class="tag">&lt;/sound&gt;</span><br>
+                                        <span class="tag">&lt;image&gt;</span><span class="content" contenteditable="true">&nbsp;&nbsp;</span><span class="tag">&lt;/image&gt;</span><br>
+                                    </div>
+                                    <span class="tag">&lt;/middle&gt;</span><br>
+                                    <span class="tag">&lt;end&gt;</span><br>
+                                    <div class="indent">
+                                        <span class="tag">&lt;text&gt;</span><span class="content" contenteditable="true">&nbsp;&nbsp;</span><span class="tag">&lt;/text&gt;</span><br>
+                                        <span class="tag">&lt;sound&gt;</span><span class="content" contenteditable="true">&nbsp;&nbsp;</span><span class="tag">&lt;/sound&gt;</span><br>
+                                        <span class="tag">&lt;image&gt;</span><span class="content" contenteditable="true">&nbsp;&nbsp;</span><span class="tag">&lt;/image&gt;</span><br>
+                                    </div>
+                                    <span class="tag">&lt;/end&gt;</span><br>
+                                </div>
+                                <span class="tag">&lt;/instructions&gt;</span><br>
+                                <span class="tag">&lt;words&gt;</span><br>
+                                <div class="indent">
+                                    <div class="word">
+                                    <span class="tag removeable">&lt;word&gt;</span><br>
+                                    <div class="indent">
+                                        <span class="tag">&lt;text&gt;</span><span class="content" contenteditable="true">&nbsp;&nbsp;</span><span class="tag">&lt;/text&gt;</span><br>
+                                        <span class="tag">&lt;sound&gt;</span><span class="content" contenteditable="true">&nbsp;&nbsp;</span><span class="tag">&lt;/sound&gt;</span><br>
+                                        <span class="tag">&lt;image&gt;</span><span class="content" contenteditable="true">&nbsp;&nbsp;</span><span class="tag">&lt;/image&gt;</span><br>
+                                    </div>
+                                    <span class="tag">&lt;/word&gt;</span><br>
+                                    </div>
+                                    <input type="button" value="Add Word" onclick="addWord.call(this)">
+                                </div>
+                                <span class="tag">&lt;/words&gt;</span><br>
+                            </div>
+                            <span class="tag">&lt;/letter&gt;</span><br>
+                        </div>
+                        <input type="button" value="Add Letter" onclick="addLetter.call(this)">
+                    </div>
+                    <span class="tag">&lt;/letters&gt;</span><br>
+                </div>
+                <span class="tag">&lt;/lesson&gt;</span><br>
+            </div>
+            <input type="button" value="Add Lesson" onclick="addLesson.call(this)">
+        </div>
+        <span class="tag">&lt;/design&gt;</span><br><br>
+        <input type="button" onclick="downloadXml()" value="Download Xml">
+    </body>
+</html>
